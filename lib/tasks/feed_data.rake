@@ -41,22 +41,22 @@ task :base_ball_stats do
 
           player_record = team_record.players.find_or_create_by(player_hash)
 
-          avg = (player_record.hits) / (player_record.at_bats) rescue nil
+          avg = (player_record.hits.to_f) / (player_record.at_bats.to_f) rescue 0.0
           #finding the opb value
-          obp_numerator = player_record.hits + player_record.walks + player_record.hit_by_pitch rescue nil
-          obp_denominator = player_record.at_bats + player_record.walks + player_record.sacrifice_flies + player_record.hit_by_pitch rescue nil
-          obp = obp_numerator / obp_denominator rescue nil
+          obp_numerator = player_record.hits + player_record.walks + player_record.hit_by_pitch rescue 0.0
+          obp_denominator = player_record.at_bats + player_record.walks + player_record.sacrifice_flies + player_record.hit_by_pitch rescue 0.0
+          obp = obp_numerator.to_f / obp_denominator.to_f
           #finding the slg value
-          slg_numerator = (1 * player_record.hits) + (2 * player_record.doubles) + (3 * player_record.triples) + (4 * player_record.home_runs) rescue nil
-          slg_denominator = player_record.at_bats rescue nil
-          slg = slg_numerator / slg_denominator rescue nil
+          slg_numerator = (1 * player_record.hits) + (2 * player_record.doubles) + (3 * player_record.triples) + (4 * player_record.home_runs) rescue 0.0
+          slg_denominator = player_record.at_bats rescue 0.0
+          slg = slg_numerator.to_f / slg_denominator.to_f
           #finding the ops value
-          ops = obp + slg rescue nil
-          ops = nil if ops.to_f.nan?
+          ops = obp + slg
+          ops = 0.000 if ops.to_f.nan?
 
-          avg = nil if avg.to_f.nan?
+          avg = 0.000 if avg.to_f.nan?
 
-          player_record.update(avg: avg, ops: ops)
+          player_record.update(avg: avg.round(3), ops: ops.round(3))
         end
       end
     end
