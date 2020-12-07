@@ -7,6 +7,6 @@ class PlayersController < ApplicationController
     end
 
     @players = @players.select(:id, :given_name, :avg, :home_runs, :runs, :ops)
-    render json: { success: true, players: @players }
+    render json: { success: true, players: @players, totalItems: Player.count }
   end
 end

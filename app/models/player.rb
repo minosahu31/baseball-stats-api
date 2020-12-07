@@ -3,7 +3,7 @@ class Player < ApplicationRecord
   belongs_to :team
 
   # after_commit :update_avg_and_ops
-  self.per_page = 20
+  self.per_page = 25
 
   def update_avg_and_ops
     avg = (self.hits) / (self.at_bats) rescue 0
